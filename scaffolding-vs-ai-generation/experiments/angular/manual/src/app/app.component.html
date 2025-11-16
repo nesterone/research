@@ -1,0 +1,33 @@
+<div class="app">
+  <div class="container">
+    <h1>{{ title }}</h1>
+
+    <div class="input-group">
+      <input
+        type="text"
+        [(ngModel)]="newTask"
+        (keyup.enter)="addTask()"
+        placeholder="Add a new task..."
+      />
+      <button (click)="addTask()">Add</button>
+    </div>
+
+    <ul class="task-list">
+      <li *ngFor="let task of tasks" [class.completed]="task.completed">
+        <input
+          type="checkbox"
+          [checked]="task.completed"
+          (change)="toggleTask(task)"
+        />
+        <span>{{ task.text }}</span>
+        <button (click)="deleteTask(task.id)">Delete</button>
+      </li>
+    </ul>
+
+    <p *ngIf="tasks.length === 0" class="empty">No tasks yet. Add one above!</p>
+
+    <div class="stats">
+      Total: {{ tasks.length }} | Completed: {{ completedCount }}
+    </div>
+  </div>
+</div>

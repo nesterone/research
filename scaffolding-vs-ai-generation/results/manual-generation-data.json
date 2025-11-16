@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "date": "2025-11-16",
+    "methodology": "Simulated AI generation of complete project structures from scratch",
+    "token_estimation": "1 token ≈ 4 characters (industry standard)",
+    "pricing": {
+      "model": "Claude Sonnet 4.5",
+      "input_per_million": 3.00,
+      "output_per_million": 15.00
+    }
+  },
+  "frameworks": {
+    "nextjs": {
+      "name": "Next.js",
+      "total_bytes": 7092,
+      "total_chars": 7092,
+      "estimated_tokens": 1773,
+      "breakdown": {
+        "input_tokens": 400,
+        "output_tokens": 1773,
+        "total_tokens": 2173
+      },
+      "estimated_cost_usd": 0.02781,
+      "files_generated": 11,
+      "iterations_needed": 2,
+      "estimated_time_minutes": 8,
+      "files": [
+        "package.json",
+        "tsconfig.json",
+        "next.config.ts",
+        "tailwind.config.ts",
+        "postcss.config.mjs",
+        "eslint.config.mjs",
+        ".gitignore",
+        "README.md",
+        "app/layout.tsx",
+        "app/globals.css",
+        "app/page.tsx"
+      ]
+    },
+    "vite-react": {
+      "name": "Vite + React",
+      "total_bytes": 5945,
+      "total_chars": 5945,
+      "estimated_tokens": 1486,
+      "breakdown": {
+        "input_tokens": 350,
+        "output_tokens": 1486,
+        "total_tokens": 1836
+      },
+      "estimated_cost_usd": 0.02334,
+      "files_generated": 9,
+      "iterations_needed": 2,
+      "estimated_time_minutes": 7,
+      "files": [
+        "package.json",
+        "vite.config.ts",
+        "tsconfig.json",
+        "tsconfig.app.json",
+        "index.html",
+        "src/main.tsx",
+        "src/App.tsx",
+        "src/App.css",
+        "src/index.css"
+      ]
+    },
+    "angular": {
+      "name": "Angular",
+      "total_bytes": 3815,
+      "total_chars": 3815,
+      "estimated_tokens": 954,
+      "breakdown": {
+        "input_tokens": 400,
+        "output_tokens": 954,
+        "total_tokens": 1354
+      },
+      "estimated_cost_usd": 0.01551,
+      "files_generated": 4,
+      "iterations_needed": 2,
+      "estimated_time_minutes": 6,
+      "files": [
+        "package.json",
+        "src/app/app.component.ts",
+        "src/app/app.component.html",
+        "src/app/app.component.css"
+      ],
+      "note": "Simplified core component files only; full Angular setup would require additional config files"
+    }
+  },
+  "summary": {
+    "total_tokens_all_frameworks": 5563,
+    "total_cost_all_frameworks_usd": 0.06666,
+    "average_tokens_per_framework": 1854,
+    "average_cost_per_framework_usd": 0.02222
+  }
+}

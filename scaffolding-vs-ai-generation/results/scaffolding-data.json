@@ -1,0 +1,98 @@
+{
+  "metadata": {
+    "date": "2025-11-16",
+    "methodology": "AI uses scaffolding CLI tools, then customizes the generated project",
+    "token_estimation": "Only customization tokens counted; scaffolding is free (no AI tokens used)",
+    "pricing": {
+      "model": "Claude Sonnet 4.5",
+      "input_per_million": 3.00,
+      "output_per_million": 15.00
+    }
+  },
+  "frameworks": {
+    "nextjs": {
+      "name": "Next.js",
+      "scaffolding_command": "npx create-next-app@latest --typescript --tailwind --eslint --app",
+      "scaffolding_bytes": 37375,
+      "scaffolding_tokens": 0,
+      "customization": {
+        "modified_files": 1,
+        "bytes_modified": 2800,
+        "estimated_tokens": 700,
+        "breakdown": {
+          "input_tokens": 100,
+          "output_tokens": 700,
+          "total_tokens": 800
+        }
+      },
+      "estimated_cost_usd": 0.01080,
+      "iterations_needed": 1,
+      "estimated_time_minutes": 3,
+      "advantages": [
+        "Pre-configured with all best practices",
+        "Includes optimized build configuration",
+        "ESLint and TypeScript setup included",
+        "Tailwind CSS pre-integrated"
+      ]
+    },
+    "vite-react": {
+      "name": "Vite + React",
+      "scaffolding_command": "npm create vite@latest -- --template react-ts",
+      "scaffolding_bytes": 14673,
+      "scaffolding_tokens": 0,
+      "customization": {
+        "modified_files": 2,
+        "bytes_modified": 3200,
+        "estimated_tokens": 800,
+        "breakdown": {
+          "input_tokens": 150,
+          "output_tokens": 800,
+          "total_tokens": 950
+        }
+      },
+      "estimated_cost_usd": 0.01245,
+      "iterations_needed": 1,
+      "estimated_time_minutes": 3,
+      "advantages": [
+        "Fast development server pre-configured",
+        "Optimized build setup included",
+        "TypeScript configuration ready",
+        "ESLint rules included"
+      ]
+    },
+    "angular": {
+      "name": "Angular",
+      "scaffolding_command": "ng new angular-todo --routing --style=css",
+      "scaffolding_bytes": 45000,
+      "scaffolding_tokens": 0,
+      "customization": {
+        "modified_files": 3,
+        "bytes_modified": 2500,
+        "estimated_tokens": 625,
+        "breakdown": {
+          "input_tokens": 120,
+          "output_tokens": 625,
+          "total_tokens": 745
+        }
+      },
+      "estimated_cost_usd": 0.00975,
+      "iterations_needed": 1,
+      "estimated_time_minutes": 3,
+      "advantages": [
+        "Complete project structure with best practices",
+        "Testing framework pre-configured",
+        "Routing setup included",
+        "Build optimization included",
+        "Angular CLI tooling ready"
+      ],
+      "note": "Estimated scaffolding size; actual ng new creates ~45KB of config/source files"
+    }
+  },
+  "summary": {
+    "total_tokens_all_frameworks": 2495,
+    "total_cost_all_frameworks_usd": 0.03300,
+    "average_tokens_per_framework": 832,
+    "average_cost_per_framework_usd": 0.01100,
+    "key_insight": "Scaffolding tools generate thousands of characters of configuration for free (no AI tokens), AI only pays for minimal customization"
+  }
+}
