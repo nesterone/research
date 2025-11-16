@@ -1,0 +1,24 @@
+FROM ubuntu:22.04
+
+# Avoid interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python
+RUN apt-get update && \
+    apt-get install -y python3 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create directory for the service
+RUN mkdir -p /opt/service
+
+# Copy the server file
+COPY server.py /opt/service/
+RUN chmod +x /opt/service/server.py
+
+WORKDIR /opt/service
+
+# Expose the server port
+EXPOSE 8080
+
+# Run the server
+CMD ["/usr/bin/python3", "server.py"]
