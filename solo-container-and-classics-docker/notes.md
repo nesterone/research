@@ -108,3 +108,87 @@ The single container approach has its place in:
 
 Key learning: supervisord is a viable systemd alternative for container environments, but the need for it suggests an architectural issue that should be addressed by splitting services into separate containers.
 
+---
+
+## Additional Research: systemd Implementation
+
+### Step 10: User Request for systemd
+User asked if systemd can be used instead of supervisord for managing services in a single container.
+
+### Step 11: systemd Implementation
+Created `approach1-systemd/` with full systemd support:
+
+**Implementation Details:**
+- Base: Ubuntu 22.04 with systemd and systemd-sysv
+- Cleanup: Removed unnecessary systemd units that conflict with containers
+- Service Files: Created proper systemd unit files for both services
+- Init: systemd runs as PID 1 in the container
+
+**Required Docker Flags:**
+```bash
+--privileged              # systemd needs extended capabilities
+-v /sys/fs/cgroup:/sys/fs/cgroup:ro  # cgroup access
+--tmpfs /run              # systemd runtime directory
+--tmpfs /run/lock         # systemd lock directory
+```
+
+**Service Configuration:**
+- `server.service`: HTTP server managed by systemd
+- `client.service`: HTTP client with dependency on server.service
+- Both use `Restart=always` for automatic recovery
+- Logs go to systemd journal (journalctl)
+
+### Step 12: systemd vs supervisord Analysis
+
+**systemd Advantages:**
+- Native Linux init system, familiar to sysadmins
+- Advanced features: cgroups, socket activation, complex dependencies
+- Centralized logging with journalctl
+- Rich service management (start, stop, restart, status)
+
+**systemd Disadvantages:**
+- **Requires --privileged flag**: Major security concern
+- Breaks container isolation (near root-level host access)
+- More complex setup and configuration
+- Higher resource overhead
+- Portability issues (doesn't work well on Docker Desktop for Mac)
+- Against Docker best practices
+
+**supervisord Advantages:**
+- No privileged mode required
+- Simpler configuration
+- Lower resource overhead
+- Better portability
+- Designed for containers
+
+**supervisord Disadvantages:**
+- Less powerful than systemd
+- Different tooling from traditional Linux systems
+- Basic process management only
+
+### Step 13: Security Implications
+
+The `--privileged` flag required for systemd is a significant security risk:
+- Full access to host devices
+- Can load kernel modules
+- Bypasses many security restrictions
+- Essentially breaks container isolation
+
+**Conclusion**: systemd works but should NEVER be used in production containers unless:
+1. Absolutely required for legacy migration
+2. Running in highly trusted environments
+3. Security team has explicitly approved the risk
+
+For new deployments:
+- **Best**: Use separate containers (approach2)
+- **Acceptable**: Use supervisord (approach1-single-container)
+- **Last Resort**: Use systemd (approach1-systemd) only for legacy migrations
+
+### Step 14: Final Comparison Matrix
+
+| Approach | Process Manager | Privileges | Security | Complexity | Best For |
+|----------|----------------|------------|----------|------------|----------|
+| approach1-systemd | systemd | --privileged | ⚠️ Low | High | Legacy migration |
+| approach1-single-container | supervisord | None | ✓ Medium | Medium | Simple multi-process |
+| approach2-separate-containers | Native (one per) | None | ✓✓ High | Low | Production, microservices |
+
