@@ -10,7 +10,7 @@ WorkingDirectory=/opt/services
 Environment="SERVER_HOST=localhost"
 Environment="SERVER_PORT=8080"
 Environment="POLL_INTERVAL=5"
-ExecStart=/usr/bin/python3 /opt/services/client.py
+ExecStart=/usr/bin/python3 -u /opt/services/client.py
 Restart=always
 RestartSec=10
 StandardOutput=journal

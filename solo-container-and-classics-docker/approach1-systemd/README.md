@@ -48,9 +48,14 @@ systemd needs extended capabilities to manage services, cgroups, and namespaces.
 
 ### 2. Cgroup Access
 ```bash
--v /sys/fs/cgroup:/sys/fs/cgroup:ro
+--cgroupns=host
+-v /sys/fs/cgroup:/sys/fs/cgroup:rw
 ```
-Mount the cgroup filesystem (read-only) so systemd can monitor resource usage.
+systemd requires:
+- `--cgroupns=host`: Use the host's cgroup namespace
+- Read-write (`:rw`) access to `/sys/fs/cgroup` for service management
+
+**Note**: Earlier documentation suggested read-only (`:ro`), but systemd needs write access to actually manage services and create cgroups for them. This is critical on macOS with OrbStack/Docker Desktop.
 
 ### 3. Temporary Filesystems
 ```bash
@@ -96,8 +101,9 @@ docker build -t approach1-systemd .
 docker run --rm \
     --name approach1-systemd-test \
     --privileged \
+    --cgroupns=host \
     -p 8080:8080 \
-    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+    -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
     --tmpfs /run \
     --tmpfs /run/lock \
     approach1-systemd
@@ -148,8 +154,9 @@ curl http://localhost:8080
 2. **Complex Setup**: More configuration than supervisord
 3. **Against Docker Philosophy**: Docker expects one process per container
 4. **Resource Overhead**: systemd adds significant overhead vs supervisord
-5. **Portability Issues**: May not work on all Docker hosts (e.g., Docker Desktop on Mac has issues)
-6. **Cgroup Mount Required**: Host system dependency
+5. **Portability Issues**: Requires platform-specific configurations (e.g., macOS with OrbStack needs `--cgroupns=host` and `:rw` cgroup mount)
+6. **Cgroup Mount Required**: Host system dependency with read-write access
+7. **Python Buffering**: Services need unbuffered output (`python3 -u`) for logs to appear in journalctl
 
 ## systemd vs supervisord
 
@@ -177,6 +184,45 @@ Avoid systemd when:
 - **Portability Matters**: May not work on all Docker hosts
 - **Following Best Practices**: Want to follow "one process per container"
 - **Microservices**: Building cloud-native applications (use separate containers)
+
+## macOS/OrbStack Specific Configuration
+
+When running systemd containers on macOS with OrbStack or Docker Desktop, additional configuration is required:
+
+### Issue 1: Container Exits Immediately
+**Symptom**: Container starts but exits within seconds with no logs.
+
+**Root Cause**: systemd cannot operate without proper cgroup namespace and write access to cgroups.
+
+**Solution**:
+```bash
+--cgroupns=host                          # Use host's cgroup namespace
+-v /sys/fs/cgroup:/sys/fs/cgroup:rw     # Read-write access (not :ro)
+```
+
+Without these flags, systemd silently fails to initialize as PID 1.
+
+### Issue 2: Service Logs Not Appearing in journalctl
+**Symptom**: Services are running (`systemctl status` shows active), but `journalctl -u service.name` shows no output from the service.
+
+**Root Cause**: Python buffers stdout by default, preventing logs from reaching systemd's journal.
+
+**Solution**: Add `-u` flag to Python commands in service files:
+```ini
+# In server.service and client.service
+ExecStart=/usr/bin/python3 -u /opt/services/server.py
+```
+
+The `-u` flag forces unbuffered output, allowing logs to immediately appear in journalctl.
+
+### Testing
+Run `./test.sh` to verify the configuration works correctly. All tests should pass:
+- Container starts and stays running
+- systemd initializes properly
+- Both services start successfully
+- HTTP endpoint responds
+- Client-server communication works
+- Logs are visible in journalctl
 
 ## Security Considerations
 

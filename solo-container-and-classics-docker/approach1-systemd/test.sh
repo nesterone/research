@@ -32,8 +32,9 @@ echo "Step 2: Starting container..."
 docker run -d \
     --name $CONTAINER_NAME \
     --privileged \
+    --cgroupns=host \
     -p 8080:8080 \
-    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+    -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
     --tmpfs /run \
     --tmpfs /run/lock \
     approach1-systemd || {
