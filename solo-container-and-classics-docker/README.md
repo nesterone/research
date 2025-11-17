@@ -8,6 +8,24 @@ This research compares three approaches for running networked services in Docker
 2. **Single Container with supervisord**: Both services in one Ubuntu container managed by supervisord
 3. **Separate Containers**: Each service in its own container, orchestrated with docker-compose
 
+## Quick Start: Run Tests
+
+To verify all approaches work correctly:
+
+```bash
+# Test all three approaches
+./run-all-tests.sh
+
+# Test only the recommended approach
+./run-all-tests.sh --only-separate
+
+# Test individual approach
+cd approach2-separate-containers
+./test.sh
+```
+
+See [TESTING-GUIDE.md](TESTING-GUIDE.md) for detailed testing instructions.
+
 ## Test Services
 
 Two simple Python services were created to demonstrate inter-service communication:
@@ -295,9 +313,11 @@ This is the recommended pattern for most use cases:
 
 ```
 solo-container-and-classics-docker/
-├── README.md (this file)
-├── TESTING.md (detailed testing instructions)
-├── notes.md (research notes)
+├── README.md (this file - comprehensive comparison)
+├── TESTING.md (manual testing instructions)
+├── TESTING-GUIDE.md (automated test suite guide)
+├── notes.md (research notes and process)
+├── run-all-tests.sh (unified test runner)
 ├── server.py (HTTP server service)
 ├── client.py (HTTP client service)
 ├── approach1-systemd/
@@ -305,20 +325,23 @@ solo-container-and-classics-docker/
 │   ├── Dockerfile
 │   ├── server.service (systemd unit file)
 │   ├── client.service (systemd unit file)
-│   ├── run.sh
+│   ├── run.sh (manual run script)
+│   ├── test.sh (automated test script)
 │   ├── server.py
 │   └── client.py
 ├── approach1-single-container/
 │   ├── Dockerfile
 │   ├── supervisord.conf
-│   ├── run.sh
+│   ├── run.sh (manual run script)
+│   ├── test.sh (automated test script)
 │   ├── server.py
 │   └── client.py
 └── approach2-separate-containers/
     ├── Dockerfile.server
     ├── Dockerfile.client
     ├── docker-compose.yml
-    ├── run.sh
+    ├── run.sh (manual run script)
+    ├── test.sh (automated test script)
     ├── server.py
     └── client.py
 ```

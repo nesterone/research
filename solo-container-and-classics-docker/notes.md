@@ -192,3 +192,101 @@ For new deployments:
 | approach1-single-container | supervisord | None | ✓ Medium | Medium | Simple multi-process |
 | approach2-separate-containers | Native (one per) | None | ✓✓ High | Low | Production, microservices |
 
+---
+
+## Test Suite Implementation
+
+### Step 15: User Request for Tests
+User requested test scripts to verify that all solutions work correctly.
+
+### Step 16: Test Suite Creation
+Created comprehensive test suite with automated verification:
+
+**Individual Test Scripts:**
+- `approach1-systemd/test.sh`: Tests systemd approach
+  - Builds image, starts container with --privileged
+  - Checks systemd status and service health
+  - Verifies HTTP endpoint and journalctl logs
+  - Confirms client-server communication
+
+- `approach1-single-container/test.sh`: Tests supervisord approach
+  - Builds image, starts container
+  - Checks supervisorctl status
+  - Verifies HTTP endpoint and log files
+  - Confirms both processes are running
+
+- `approach2-separate-containers/test.sh`: Tests separate containers
+  - Builds images with docker-compose
+  - Verifies both containers running independently
+  - Tests HTTP endpoint and Docker DNS
+  - Demonstrates scaling capability
+  - Checks container isolation
+
+**Unified Test Runner:**
+- `run-all-tests.sh`: Runs all tests sequentially
+  - Command-line options to skip/select specific tests
+  - Comprehensive summary with pass/fail counts
+  - Duration tracking
+  - Production recommendations
+
+**Test Features:**
+- Automatic cleanup (via trap on EXIT)
+- Detailed step-by-step output
+- ✓/❌ status indicators
+- Log inspection
+- Service health checks
+- HTTP endpoint testing
+- Communication verification
+
+**Documentation:**
+- `TESTING-GUIDE.md`: Comprehensive testing documentation
+  - Quick start guide
+  - Command-line options
+  - What each test checks
+  - Common issues and solutions
+  - CI/CD integration examples
+  - Manual verification steps
+
+### Step 17: Test Capabilities
+
+Each test verifies:
+1. **Build**: Docker image builds successfully
+2. **Start**: Container(s) start without errors
+3. **Health**: Services are running and healthy
+4. **Network**: HTTP endpoint responds correctly
+5. **Communication**: Client successfully talks to server
+6. **Logs**: Proper logging is working
+7. **Isolation**: (Approach 2) Containers are properly isolated
+
+**Test Results Format:**
+- Clear pass/fail indicators (✅/❌)
+- Detailed error messages for failures
+- JSON response validation
+- Log output for debugging
+- Cleanup confirmation
+
+### Step 18: Usage Examples
+
+**Run all tests:**
+```bash
+./run-all-tests.sh
+```
+
+**Test only production-ready approach:**
+```bash
+./run-all-tests.sh --only-separate
+```
+
+**Test without systemd (for CI/CD):**
+```bash
+./run-all-tests.sh --skip-systemd
+```
+
+**Individual test:**
+```bash
+cd approach2-separate-containers
+./test.sh
+```
+
+This test suite provides verifiable proof that all three approaches work as documented, making it easy to evaluate and compare them in real environments.
+
