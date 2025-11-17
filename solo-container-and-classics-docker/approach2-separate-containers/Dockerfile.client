@@ -1,0 +1,21 @@
+FROM ubuntu:22.04
+
+# Avoid interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python
+RUN apt-get update && \
+    apt-get install -y python3 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create directory for the service
+RUN mkdir -p /opt/service
+
+# Copy the client file
+COPY client.py /opt/service/
+RUN chmod +x /opt/service/client.py
+
+WORKDIR /opt/service
+
+# Run the client
+CMD ["/usr/bin/python3", "client.py"]

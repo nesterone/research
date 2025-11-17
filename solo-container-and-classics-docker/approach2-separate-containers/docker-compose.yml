@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: approach2-server
+    hostname: server-container
+    ports:
+      - "8080:8080"
+    networks:
+      - service-network
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: approach2-client
+    hostname: client-container
+    environment:
+      - SERVER_HOST=server
+      - SERVER_PORT=8080
+      - POLL_INTERVAL=5
+    depends_on:
+      - server
+    networks:
+      - service-network
+
+networks:
+  service-network:
+    driver: bridge
