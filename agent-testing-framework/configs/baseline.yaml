@@ -1,0 +1,28 @@
+# Baseline Agent Configuration
+name: "baseline"
+description: "Standard Claude Code agent with default settings"
+
+# Additional instructions to prepend to task prompt
+system_prompt_additions: ""
+
+# Context configuration
+context:
+  max_file_size: 100000
+  include_git_history: true
+  include_dependencies: true
+
+# Tool preferences
+tools:
+  prefer_task_agent: false
+  max_parallel_tools: 3
+
+# Behavior flags
+behavior:
+  verbose: false
+  explain_reasoning: false
+  ask_before_commit: false
+
+# Resource limits
+limits:
+  max_tokens: 100000
+  timeout_seconds: 300

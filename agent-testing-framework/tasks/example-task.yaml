@@ -1,0 +1,53 @@
+# Example Task Definition
+name: "fix-bug-in-calculator"
+description: "Fix a division by zero bug in a simple calculator"
+category: "bug-fix"
+
+# Initial code state
+setup:
+  files:
+    - path: "calculator.py"
+      content: |
+        def add(a, b):
+            return a + b
+
+        def subtract(a, b):
+            return a - b
+
+        def divide(a, b):
+            return a / b  # BUG: No zero check
+
+        def multiply(a, b):
+            return a * b
+
+# Task prompt given to the agent
+prompt: |
+  The calculator.py file has a bug where division by zero is not handled.
+  Fix this bug by adding proper error handling.
+
+# Success criteria
+validation:
+  # Code checks
+  code_checks:
+    - type: "contains"
+      file: "calculator.py"
+      pattern: "if b == 0|if b != 0|ZeroDivisionError"
+      description: "Should have zero division check"
+
+  # Test execution
+  tests:
+    - command: "python -c 'from calculator import divide; divide(10, 0)'"
+      should_fail: false
+      description: "Should handle division by zero gracefully"
+
+  # Quality checks
+  quality:
+    - metric: "lines_changed"
+      max: 10
+      description: "Should be a minimal change"
+
+# Expected outcomes
+expected:
+  files_modified: ["calculator.py"]
+  commits: 1
+  execution_time_max: 120

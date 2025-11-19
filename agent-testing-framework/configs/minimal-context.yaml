@@ -1,0 +1,25 @@
+# Minimal Context Configuration
+name: "minimal-context"
+description: "Agent with limited context to test information efficiency"
+
+system_prompt_additions: |
+  Work efficiently with minimal context.
+  Only read files when absolutely necessary.
+
+context:
+  max_file_size: 10000
+  include_git_history: false
+  include_dependencies: false
+
+tools:
+  prefer_task_agent: true
+  max_parallel_tools: 1
+
+behavior:
+  verbose: false
+  explain_reasoning: false
+  ask_before_commit: false
+
+limits:
+  max_tokens: 50000
+  timeout_seconds: 180

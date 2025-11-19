@@ -1,0 +1,28 @@
+# Verbose Reasoning Configuration
+name: "verbose-reasoning"
+description: "Agent that explains its reasoning at each step"
+
+system_prompt_additions: |
+  IMPORTANT: Before each action, explain your reasoning clearly:
+  - What you observe
+  - What you're about to do
+  - Why you're taking this approach
+  Be thorough in your explanations.
+
+context:
+  max_file_size: 100000
+  include_git_history: true
+  include_dependencies: true
+
+tools:
+  prefer_task_agent: false
+  max_parallel_tools: 3
+
+behavior:
+  verbose: true
+  explain_reasoning: true
+  ask_before_commit: false
+
+limits:
+  max_tokens: 100000
+  timeout_seconds: 300

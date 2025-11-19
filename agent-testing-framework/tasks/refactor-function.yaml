@@ -1,0 +1,55 @@
+# Refactoring Task - More complex example
+name: "refactor-duplicate-code"
+description: "Refactor duplicate code into a reusable function"
+category: "refactoring"
+
+setup:
+  files:
+    - path: "utils.py"
+      content: |
+        def process_user_data(user):
+            if not user:
+                return None
+            name = user.get('name', '').strip().lower()
+            email = user.get('email', '').strip().lower()
+            return {'name': name, 'email': email}
+
+        def process_admin_data(admin):
+            if not admin:
+                return None
+            name = admin.get('name', '').strip().lower()
+            email = admin.get('email', '').strip().lower()
+            return {'name': name, 'email': email}
+
+        def process_guest_data(guest):
+            if not guest:
+                return None
+            name = guest.get('name', '').strip().lower()
+            email = guest.get('email', '').strip().lower()
+            return {'name': name, 'email': email}
+
+prompt: |
+  The utils.py file has duplicate code in three functions.
+  Refactor this code to eliminate duplication by creating a reusable helper function.
+  Keep the existing function signatures.
+
+validation:
+  code_checks:
+    - type: "contains"
+      file: "utils.py"
+      pattern: "def.*normalize.*data|def.*process.*common|def.*clean.*data"
+      description: "Should have a helper function"
+
+    - type: "contains"
+      file: "utils.py"
+      pattern: "def process_user_data"
+      description: "Should keep original function"
+
+  quality:
+    - metric: "duplication_removed"
+      description: "Should reduce code duplication"
+
+expected:
+  files_modified: ["utils.py"]
+  commits: 1
+  execution_time_max: 120
