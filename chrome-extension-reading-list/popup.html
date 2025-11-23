@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading List</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 Reading List</h1>
+      <div class="stats">
+        <span id="itemCount">0 items</span>
+      </div>
+    </header>
+
+    <div class="actions">
+      <button id="generateNewsletter" class="btn btn-primary">
+        📧 Generate Newsletter
+      </button>
+      <button id="clearAll" class="btn btn-danger">
+        🗑️ Clear All
+      </button>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="today">Today</button>
+      <button class="filter-btn" data-filter="week">This Week</button>
+    </div>
+
+    <div id="emptyState" class="empty-state">
+      <p>📖 No items in your reading list yet</p>
+      <p class="hint">Select text on any page and press <kbd>Ctrl+Shift+S</kbd> or right-click and choose "Save to Reading List"</p>
+    </div>
+
+    <div id="readingList" class="reading-list"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
