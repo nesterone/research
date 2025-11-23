@@ -2,10 +2,15 @@
 
 let readingList = [];
 let currentFilter = 'all';
+let settings = {
+  emailAddress: '',
+  backendUrl: 'http://localhost:3000'
+};
 
 // Load reading list on popup open
 document.addEventListener('DOMContentLoaded', async () => {
   await loadReadingList();
+  await loadSettings();
   setupEventListeners();
 });
 
@@ -20,11 +25,48 @@ async function loadReadingList() {
   }
 }
 
+// Load settings from storage
+async function loadSettings() {
+  try {
+    const result = await chrome.storage.sync.get(['emailSettings']);
+    if (result.emailSettings) {
+      settings = { ...settings, ...result.emailSettings };
+    }
+  } catch (error) {
+    console.error('Error loading settings:', error);
+  }
+}
+
+// Save settings to storage
+async function saveSettings() {
+  try {
+    await chrome.storage.sync.set({ emailSettings: settings });
+  } catch (error) {
+    console.error('Error saving settings:', error);
+  }
+}
+
 // Setup event listeners
 function setupEventListeners() {
+  // Existing buttons
   document.getElementById('generateNewsletter').addEventListener('click', generateNewsletter);
+  document.getElementById('emailNewsletter').addEventListener('click', emailNewsletter);
   document.getElementById('clearAll').addEventListener('click', clearAll);
 
+  // Settings modal
+  document.getElementById('settingsBtn').addEventListener('click', openSettings);
+  document.getElementById('closeSettings').addEventListener('click', closeSettings);
+  document.getElementById('saveSettings').addEventListener('click', saveSettingsFromUI);
+  document.getElementById('testEmail').addEventListener('click', sendTestEmail);
+
+  // Close modal on background click
+  document.getElementById('settingsModal').addEventListener('click', (e) => {
+    if (e.target.id === 'settingsModal') {
+      closeSettings();
+    }
+  });
+
+  // Filter buttons
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -313,6 +355,165 @@ function createNewsletterHTML(items) {
 </body>
 </html>
   `;
+}
+
+// Settings modal functions
+function openSettings() {
+  // Populate modal with current settings
+  document.getElementById('emailAddress').value = settings.emailAddress;
+  document.getElementById('backendUrl').value = settings.backendUrl;
+  document.getElementById('settingsModal').classList.remove('hidden');
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').classList.add('hidden');
+  document.getElementById('testStatus').textContent = '';
+}
+
+async function saveSettingsFromUI() {
+  settings.emailAddress = document.getElementById('emailAddress').value.trim();
+  settings.backendUrl = document.getElementById('backendUrl').value.trim();
+
+  await saveSettings();
+
+  const statusEl = document.getElementById('testStatus');
+  statusEl.textContent = '✓ Settings saved!';
+  statusEl.className = 'test-status success';
+
+  setTimeout(() => {
+    statusEl.textContent = '';
+  }, 3000);
+}
+
+// Send test email
+async function sendTestEmail() {
+  const emailAddress = document.getElementById('emailAddress').value.trim();
+  const backendUrl = document.getElementById('backendUrl').value.trim();
+  const statusEl = document.getElementById('testStatus');
+
+  if (!emailAddress) {
+    statusEl.textContent = '⚠ Please enter an email address first';
+    statusEl.className = 'test-status error';
+    return;
+  }
+
+  if (!backendUrl) {
+    statusEl.textContent = '⚠ Please enter a backend URL first';
+    statusEl.className = 'test-status error';
+    return;
+  }
+
+  try {
+    statusEl.textContent = '⏳ Sending test email...';
+    statusEl.className = 'test-status loading';
+
+    const response = await fetch(`${backendUrl}/send-test-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ to: emailAddress })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      statusEl.textContent = '✓ Test email sent! Check your inbox.';
+      statusEl.className = 'test-status success';
+
+      // If using Ethereal, show preview URL
+      if (data.previewURL) {
+        setTimeout(() => {
+          if (confirm('Test email sent to Ethereal test account. Would you like to preview it?')) {
+            window.open(data.previewURL, '_blank');
+          }
+        }, 1000);
+      }
+    } else {
+      statusEl.textContent = `✗ Error: ${data.error || 'Failed to send'}`;
+      statusEl.className = 'test-status error';
+    }
+  } catch (error) {
+    console.error('Error sending test email:', error);
+    statusEl.textContent = `✗ Error: ${error.message}. Is the backend running?`;
+    statusEl.className = 'test-status error';
+  }
+}
+
+// Email newsletter
+async function emailNewsletter() {
+  if (readingList.length === 0) {
+    alert('Your reading list is empty. Add some items first!');
+    return;
+  }
+
+  if (!settings.emailAddress) {
+    alert('Please configure your email address in Settings first!');
+    openSettings();
+    return;
+  }
+
+  if (!settings.backendUrl) {
+    alert('Please configure your backend server URL in Settings first!');
+    openSettings();
+    return;
+  }
+
+  try {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    const subject = `Your Reading List Newsletter - ${dateStr}`;
+    const html = createNewsletterHTML(readingList);
+
+    // Show loading state (disable button)
+    const btn = document.getElementById('emailNewsletter');
+    const originalText = btn.textContent;
+    btn.textContent = '📧 Sending...';
+    btn.disabled = true;
+
+    const response = await fetch(`${settings.backendUrl}/send-newsletter`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        to: settings.emailAddress,
+        subject: subject,
+        html: html
+      })
+    });
+
+    const data = await response.json();
+
+    btn.textContent = originalText;
+    btn.disabled = false;
+
+    if (response.ok) {
+      alert(`✓ Newsletter sent successfully to ${settings.emailAddress}!`);
+
+      // If using Ethereal, offer to preview
+      if (data.previewURL) {
+        if (confirm('Preview the email in your browser?')) {
+          window.open(data.previewURL, '_blank');
+        }
+      }
+    } else {
+      alert(`✗ Failed to send newsletter: ${data.error || 'Unknown error'}`);
+    }
+  } catch (error) {
+    console.error('Error emailing newsletter:', error);
+    alert(`✗ Error: ${error.message}\n\nMake sure your backend server is running at ${settings.backendUrl}`);
+
+    const btn = document.getElementById('emailNewsletter');
+    btn.textContent = '📧 Email Newsletter';
+    btn.disabled = false;
+  }
 }
 
 // Escape HTML to prevent XSS

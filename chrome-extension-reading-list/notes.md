@@ -98,8 +98,37 @@ To test the extension:
 - Newsletter generation is client-side HTML only (no email sending)
 - Icons are simple placeholders (can be enhanced with better graphics)
 
-### Potential Enhancements
-- Email integration for automated newsletter sending
+### Email Functionality Added (v2.0)
+
+#### Backend Server (Node.js/Express)
+- Created Express server in `/backend` folder
+- Integrated nodemailer for email sending
+- Support for multiple email providers (Gmail, Outlook, Yahoo, etc.)
+- Test email functionality for verification
+- Ethereal test account support for development
+- CORS enabled for Chrome Extension integration
+- Environment variable configuration via .env file
+
+#### Extension Updates
+- Added Settings modal for email configuration
+- Email address input field
+- Backend server URL configuration
+- "Email Newsletter" button in main UI
+- Test email functionality
+- Loading states and error handling
+- Settings persistence via Chrome Storage
+
+#### Key Features
+- Send newsletters directly to email
+- Configurable SMTP settings
+- Test emails before sending real newsletters
+- Preview emails (when using Ethereal)
+- Graceful error handling with user feedback
+- Secure credential management (server-side only)
+
+### Updated Potential Enhancements
+- ✅ Email integration for automated newsletter sending (COMPLETED)
+- Scheduled/automated newsletter sending (daily/weekly)
 - Categories/tags for saved items
 - Search functionality
 - Export to PDF or other formats
@@ -107,3 +136,5 @@ To test the extension:
 - Dark mode support
 - Customizable keyboard shortcuts
 - Integration with read-it-later services
+- Email templates/themes
+- Newsletter customization options
