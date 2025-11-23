@@ -1,0 +1,43 @@
+Agent vs LSP Refactoring Experiment Results
+============================================
+Date: Sun Nov 23 14:27:05 UTC 2025
+
+Experiment 1: Consola - BasicReporter → ConsoleReporter
+--------------------------------------------------------
+LSP: BasicReporter → ConsoleReporter
+  Time: 137ms
+  Files modified: 4
+  Occurrences changed: 7
+
+Agent: BasicReporter → ConsoleReporter
+  Time: 203ms
+  Files modified: 4
+  Occurrences changed: 7
+  Tokens used: ~3990
+
+Experiment 2: ts-node - TSError → TypeScriptError
+--------------------------------------------------------
+LSP: TSError → TypeScriptError
+  Time: 297ms
+  Files modified: 5
+  Occurrences changed: 14
+
+Agent: TSError → TypeScriptError
+  Time: 374ms
+  Files modified: 5
+  Occurrences changed: 14
+  Tokens used: ~32835
+
+Experiment 3: tRPC - TRPCClientError → ClientError
+--------------------------------------------------------
+LSP: TRPCClientError → ClientError
+  Time: 688ms
+  Files modified: 43
+  Occurrences changed: 241
+
+Agent: TRPCClientError → ClientError
+  Time: 1342ms
+  Files modified: 43
+  Occurrences changed: 241
+  Tokens used: ~112645
+
