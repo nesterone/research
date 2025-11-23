@@ -1,5 +1,7 @@
 # Agent vs LSP Refactoring: A Comparative Study
 
+> 📊 **[View Interactive Visualizations](./visualization.html)** | **[Static Charts](./charts/)**
+
 ## Executive Summary
 
 This investigation compares two approaches to code refactoring in TypeScript projects:
@@ -46,6 +48,8 @@ For each project, we performed class rename refactorings:
 
 ## Results
 
+![Summary Dashboard](./charts/7_summary_dashboard.png)
+
 ### Experiment 1: Consola (Small Project, ~2,383 LOC)
 
 **Refactoring:** `BasicReporter` → `ConsoleReporter`
@@ -83,6 +87,8 @@ For each project, we performed class rename refactorings:
 
 ### Performance Comparison
 
+![Execution Time Comparison](./charts/1_execution_time.png)
+
 ```
 Time (ms)
   Small    Medium    Large
@@ -94,6 +100,8 @@ Time (ms)
 
 ### Token Usage
 
+![Token Usage](./charts/2_token_usage.png)
+
 ```
 Tokens Used by Agent Approach
   Small:   ~3,990
@@ -104,6 +112,8 @@ Tokens Used by Agent Approach
 ```
 
 ### Scalability
+
+![Scalability Analysis](./charts/4_scalability.png)
 
 The performance gap between LSP and agent approaches **increases with project size**:
 
