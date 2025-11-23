@@ -12,12 +12,16 @@
       <h1>📚 Reading List</h1>
       <div class="stats">
         <span id="itemCount">0 items</span>
+        <button id="settingsBtn" class="icon-btn-header" title="Settings">⚙️</button>
       </div>
     </header>
 
     <div class="actions">
       <button id="generateNewsletter" class="btn btn-primary">
-        📧 Generate Newsletter
+        📄 Generate HTML
+      </button>
+      <button id="emailNewsletter" class="btn btn-success">
+        📧 Email Newsletter
       </button>
       <button id="clearAll" class="btn btn-danger">
         🗑️ Clear All
@@ -36,6 +40,39 @@
     </div>
 
     <div id="readingList" class="reading-list"></div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>⚙️ Settings</h2>
+        <button class="close-btn" id="closeSettings">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <label for="emailAddress">Your Email Address</label>
+          <input type="email" id="emailAddress" placeholder="your-email@example.com">
+          <p class="setting-hint">This email will receive your newsletters</p>
+        </div>
+
+        <div class="setting-group">
+          <label for="backendUrl">Backend Server URL</label>
+          <input type="text" id="backendUrl" placeholder="http://localhost:3000" value="http://localhost:3000">
+          <p class="setting-hint">URL of your email backend server</p>
+        </div>
+
+        <div class="setting-group">
+          <button id="testEmail" class="btn btn-secondary">
+            🧪 Send Test Email
+          </button>
+          <span id="testStatus" class="test-status"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+      </div>
+    </div>
   </div>
 
   <script src="popup.js"></script>

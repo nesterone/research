@@ -11,6 +11,8 @@ A Chrome Extension that lets you save text selections from any webpage to a pers
 - **Beautiful Popup Interface**: View and manage your saved items with a modern, gradient-styled UI
 - **Smart Filtering**: Filter saved items by All / Today / This Week
 - **Newsletter Generation**: Create a beautiful, personalized HTML newsletter with all your saved items
+- **📧 Email Newsletters**: Send newsletters directly to your email inbox
+- **Test Email Functionality**: Verify email setup before sending newsletters
 - **Visual Feedback**: Animated notifications when items are saved
 - **Cross-Device Sync**: Uses Chrome Storage Sync API (if signed into Chrome)
 - **Organized by Date**: Newsletter groups items by date for easy reading
@@ -38,6 +40,65 @@ A Chrome Extension that lets you save text selections from any webpage to a pers
    - Click the puzzle piece icon in Chrome toolbar
    - Find "Reading List with Newsletter"
    - Click the pin icon to keep it visible
+
+## 📧 Email Setup (Optional)
+
+To enable email newsletter functionality, you need to set up the backend server:
+
+### 1. Install Backend Dependencies
+
+```bash
+cd chrome-extension-reading-list/backend
+npm install
+```
+
+### 2. Configure Email Settings
+
+**For Testing (No Real Email Needed):**
+- Just run the server - it will use Ethereal test account
+- Preview emails at https://ethereal.email
+
+**For Real Email Sending:**
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Edit .env with your email credentials
+nano .env
+```
+
+For **Gmail**:
+1. Enable 2-Step Verification in your Google Account
+2. Generate an App Password at https://myaccount.google.com/apppasswords
+3. Update `.env`:
+```env
+EMAIL_SERVICE=gmail
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASSWORD=your-16-char-app-password
+```
+
+For **other providers** (Outlook, Yahoo, etc.), see `backend/README.md`
+
+### 3. Start the Backend Server
+
+```bash
+cd backend
+npm start
+```
+
+The server will run on `http://localhost:3000`
+
+### 4. Configure Extension Settings
+
+1. Click the extension icon
+2. Click the ⚙️ Settings button
+3. Enter your email address
+4. Verify backend URL (default: `http://localhost:3000`)
+5. Click "🧪 Send Test Email" to verify setup
+6. Click "Save Settings"
+
+You're all set! You can now email newsletters to yourself.
 
 ## 📖 Usage
 
@@ -80,8 +141,12 @@ Use the filter buttons at the top of the popup:
 
 ### Generating a Newsletter
 
+You have two options:
+
+#### Option 1: Generate HTML Newsletter
+
 1. Open the extension popup
-2. Click the "📧 Generate Newsletter" button
+2. Click the "📄 Generate HTML" button
 3. A new tab will open with a beautifully formatted newsletter containing:
    - All your saved items grouped by date
    - Page titles and URLs
@@ -93,6 +158,16 @@ Use the filter buttons at the top of the popup:
    - Print it (print-friendly design)
    - Share it
    - Keep it for your records
+
+#### Option 2: Email Newsletter (requires backend setup)
+
+1. Open the extension popup
+2. Click the "📧 Email Newsletter" button
+3. The newsletter will be sent to your configured email address
+4. You'll receive a confirmation when the email is sent
+5. Check your inbox for the formatted newsletter
+
+**Note**: Make sure you've completed the Email Setup section above and the backend server is running.
 
 ## 🏗️ Project Structure
 
@@ -112,6 +187,12 @@ chrome-extension-reading-list/
 │   ├── create_simple_icons.sh
 │   ├── generate_icons.py
 │   └── generate-icons.html
+├── backend/              # Email backend server
+│   ├── server.js         # Express server
+│   ├── package.json      # Node dependencies
+│   ├── .env.example      # Example environment variables
+│   ├── .gitignore        # Git ignore rules
+│   └── README.md         # Backend documentation
 ├── notes.md              # Development notes
 └── README.md             # This file
 ```
@@ -194,14 +275,15 @@ Edit `popup.css` and look for:
 ## 📝 Limitations
 
 - **Storage Limit**: Chrome Storage Sync has a ~100KB limit (approximately 500-1000 items depending on text length)
-- **Local Storage**: No cloud backend, data stored in Chrome's sync storage
-- **Newsletter**: Client-side HTML generation only (no automated email sending)
+- **Local Storage**: No cloud backend for reading list data, stored in Chrome's sync storage
+- **Email Backend**: Requires local server to be running for email functionality
 - **Icons**: Basic placeholder icons (can be enhanced with custom graphics)
 
 ## 🚀 Future Enhancements
 
 Potential features for future versions:
-- ✉️ Automated email newsletter sending
+- ✅ ~~Automated email newsletter sending~~ (COMPLETED!)
+- ⏰ Scheduled/automated newsletter sending (daily/weekly)
 - 🏷️ Categories and tags for organization
 - 🔍 Search functionality
 - 📄 Export to PDF, Markdown, or other formats
@@ -211,6 +293,7 @@ Potential features for future versions:
 - 📊 Reading statistics and analytics
 - 🖼️ Screenshot capture alongside text
 - 📱 Mobile app companion
+- 🎨 Email template customization
 
 ## 🐛 Troubleshooting
 
@@ -232,6 +315,24 @@ Potential features for future versions:
 - Make sure you have items in your reading list
 - Check browser console for errors (F12)
 - Try disabling popup blockers
+
+### Email not sending
+- **Backend not running**: Make sure the backend server is running (`npm start` in the backend folder)
+- **Wrong URL**: Verify backend URL in Settings (should be `http://localhost:3000` by default)
+- **Email not configured**: Check your email settings in the Settings modal
+- **Server errors**: Check the backend server console for error messages
+- **Test email works but newsletter doesn't**: Make sure you have items in your reading list
+
+### Email credentials not working (Gmail)
+- Enable 2-Step Verification in your Google Account
+- Use App Password, not your regular password (https://myaccount.google.com/apppasswords)
+- Make sure EMAIL_SERVICE is set to "gmail" in .env
+
+### Backend server won't start
+- Make sure you ran `npm install` in the backend folder
+- Check if port 3000 is already in use
+- Look for error messages in the console
+- Verify Node.js is installed (`node --version`)
 
 ## 📄 License
 
