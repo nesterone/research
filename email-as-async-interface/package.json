@@ -1,0 +1,29 @@
+{
+  "name": "email-as-async-interface",
+  "version": "1.0.0",
+  "description": "Email-based asynchronous input interface - receive emails and process them as commands",
+  "main": "email-receiver.js",
+  "scripts": {
+    "start": "node email-receiver.js",
+    "dev": "nodemon email-receiver.js",
+    "test": "node test-email-interface.js"
+  },
+  "keywords": [
+    "email",
+    "imap",
+    "async",
+    "queue",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "imap": "^0.8.19",
+    "mailparser": "^3.6.5",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
