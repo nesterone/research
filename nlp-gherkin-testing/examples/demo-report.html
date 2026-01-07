@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP to Gherkin Testing - Demo Report</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .gherkin { color: #98c379; }
+        .keyword { color: #c678dd; }
+        .test-result {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .pass { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .fail { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        h2 { color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 NLP to Gherkin Testing - Demo Report</h1>
+        <p>Automated test generation from natural language prompts</p>
+    </div>
+
+    <div class="section">
+        <h2>📊 Test Execution Summary</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <div>Total Tests</div>
+                <div class="stat-value">4</div>
+            </div>
+            <div class="stat-card">
+                <div>Passed</div>
+                <div class="stat-value">3</div>
+            </div>
+            <div class="stat-card">
+                <div>Failed</div>
+                <div class="stat-value">1</div>
+            </div>
+            <div class="stat-card">
+                <div>Duration</div>
+                <div class="stat-value">2.4s</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔄 Workflow Steps</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div>
+                <strong>Natural Language Input</strong>
+                <p style="margin: 5px 0 0 0;">User provides: "test user creation"</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div>
+                <strong>Gherkin Generation (MCP)</strong>
+                <p style="margin: 5px 0 0 0;">MCP server converts to structured Gherkin DSL</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div>
+                <strong>User Review</strong>
+                <p style="margin: 5px 0 0 0;">Developer reviews and approves specification</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div>
+                <strong>Playwright Generation</strong>
+                <p style="margin: 5px 0 0 0;">Converts Gherkin to executable Playwright tests</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <div>
+                <strong>Test Execution</strong>
+                <p style="margin: 5px 0 0 0;">Runs tests and generates comprehensive report</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📝 Generated Gherkin Specification</h2>
+        <div class="code-block">
+<span class="keyword">Feature:</span> <span class="gherkin">User Creation</span>
+  <span class="keyword">As a</span> user
+  <span class="keyword">I want to</span> test user creation
+  <span class="keyword">So that</span> I can verify the functionality works correctly
+
+  <span class="keyword">Scenario:</span> <span class="gherkin">Successful User Registration</span>
+    <span class="keyword">Given</span> I am on the registration page
+    <span class="keyword">When</span> I enter a valid username "testuser123"
+    <span class="keyword">And</span> I enter a valid email "testuser@example.com"
+    <span class="keyword">And</span> I enter a valid password "SecurePass123!"
+    <span class="keyword">And</span> I click the register button
+    <span class="keyword">Then</span> I should see a success message
+    <span class="keyword">And</span> I should be redirected to the dashboard
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧪 Test Results</h2>
+
+        <div class="test-result pass">
+            <span>✓ User Creation - Successful User Registration</span>
+            <span>0.8s</span>
+        </div>
+
+        <div class="test-result pass">
+            <span>✓ User Creation - Registration with Invalid Data</span>
+            <span>0.5s</span>
+        </div>
+
+        <div class="test-result pass">
+            <span>✓ User Login - Successful User Login</span>
+            <span>0.7s</span>
+        </div>
+
+        <div class="test-result fail">
+            <span>✗ User Login - Login with Invalid Credentials</span>
+            <span>0.4s</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>💡 Key Features</h2>
+        <ul>
+            <li><strong>Natural Language Processing:</strong> Convert plain English to structured test specifications</li>
+            <li><strong>MCP Integration:</strong> Leverages Model Context Protocol for AI-powered conversion</li>
+            <li><strong>Gherkin DSL:</strong> Standard BDD format for clear, readable test specifications</li>
+            <li><strong>Playwright Execution:</strong> Generates and runs automated browser tests</li>
+            <li><strong>Comprehensive Reports:</strong> HTML, JSON, and JUnit report formats</li>
+            <li><strong>Review Step:</strong> Human-in-the-loop approval before test execution</li>
+        </ul>
+    </div>
+</body>
+</html>
