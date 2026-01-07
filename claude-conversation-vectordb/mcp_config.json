@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "claude-conversation-search": {
+      "command": "python",
+      "args": [
+        "/absolute/path/to/claude-conversation-vectordb/mcp_server.py"
+      ],
+      "env": {
+        "CHROMA_DB_PATH": "/absolute/path/to/chroma_db",
+        "COLLECTION_NAME": "claude_conversations",
+        "EMBEDDING_MODEL": "all-MiniLM-L6-v2"
+      }
+    }
+  }
+}
