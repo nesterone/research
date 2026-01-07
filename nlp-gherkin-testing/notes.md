@@ -97,6 +97,41 @@ Created several example files:
 
 4. **Review step is crucial**: Automated generation is powerful but needs human oversight for production use
 
+5. **CRITICAL DISCOVERY: The Missing Context Problem**
+
+   The initial implementation had a fundamental architectural flaw - it made hardcoded assumptions about application-specific details that weren't provided in the user's natural language prompt.
+
+   **The Problem:**
+   - Input: "test user creation"
+   - Generated: `await page.goto('/registration')`
+   - **Question: WHERE did `/registration` come from?** ❌
+   - Generated: `await page.fill('input[name="username"]', 'testuser')`
+   - **Question: HOW do we know the field name is "username"?** ❌
+
+   The system was essentially guessing implementation details, which would fail on most real applications.
+
+   **The Solution: Application Context Files**
+
+   Created a context-aware architecture where users provide an `app-context.json` file containing:
+   - Page URLs (e.g., `/auth/signup` instead of guessed `/registration`)
+   - Selectors (e.g., `[data-testid='username']` instead of generic `input[name="username"]`)
+   - Test data (application-specific values)
+   - Success/error indicators
+
+   **Implementation:**
+   - Created `app-context.template.json` - template for users to fill in
+   - Created `ContextAwareConverter` class - uses context to generate accurate code
+   - Created `MISSING-CONTEXT-PROBLEM.md` - detailed analysis of the issue
+   - Created `context-comparison.md` - before/after examples showing the difference
+
+   **Benefits:**
+   - Tests actually work on real applications
+   - Context is reusable across all tests
+   - Clear separation between test intent (Gherkin) and implementation (context)
+   - Validation reports show what context is missing
+
+   **This discovery fundamentally changed the architecture** from a demo toy to a production-viable system.
+
 ### Future Enhancements
 
 1. **Better NLP Processing:**

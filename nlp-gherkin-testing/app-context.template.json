@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "appName": "My Application",
+  "baseURL": "http://localhost:3000",
+  "description": "Application context for test generation",
+
+  "pages": {
+    "registration": {
+      "url": "/signup",
+      "description": "User registration page",
+      "selectors": {
+        "username": "input[name='username']",
+        "email": "input[type='email']",
+        "password": "input[type='password']",
+        "confirmPassword": "input[name='confirmPassword']",
+        "submitButton": "button[type='submit']",
+        "cancelButton": "button.cancel",
+        "form": "form#registration-form"
+      },
+      "successIndicators": {
+        "message": ".alert-success",
+        "messageText": "Registration successful",
+        "redirect": "/dashboard"
+      },
+      "errorIndicators": {
+        "message": ".alert-error",
+        "validationErrors": ".invalid-feedback"
+      }
+    },
+
+    "login": {
+      "url": "/login",
+      "description": "User login page",
+      "selectors": {
+        "username": "input[name='username']",
+        "password": "input[type='password']",
+        "submitButton": "button.btn-login",
+        "forgotPasswordLink": "a.forgot-password",
+        "rememberMe": "input[type='checkbox'][name='remember']"
+      },
+      "successIndicators": {
+        "redirect": "/dashboard",
+        "element": "[data-testid='user-menu']"
+      },
+      "errorIndicators": {
+        "message": ".login-error",
+        "messageText": "Invalid credentials"
+      }
+    },
+
+    "dashboard": {
+      "url": "/dashboard",
+      "description": "User dashboard after login",
+      "selectors": {
+        "userMenu": "[data-testid='user-menu']",
+        "username": ".user-display-name",
+        "logoutButton": "button.logout"
+      }
+    },
+
+    "search": {
+      "url": "/search",
+      "description": "Search functionality page",
+      "selectors": {
+        "searchInput": "input[type='search']",
+        "searchButton": "button.search-btn",
+        "resultsContainer": ".search-results",
+        "resultItem": ".result-item",
+        "noResults": ".no-results"
+      }
+    }
+  },
+
+  "testData": {
+    "users": {
+      "valid": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "password": "SecurePass123!",
+        "firstName": "Test",
+        "lastName": "User"
+      },
+      "invalid": {
+        "username": "invalid",
+        "email": "invalid@example.com",
+        "password": "wrongpassword"
+      },
+      "existing": {
+        "username": "existinguser",
+        "email": "existing@example.com",
+        "password": "ExistingPass123!"
+      }
+    },
+    "products": [
+      {
+        "id": "PROD001",
+        "name": "Test Product 1",
+        "price": 99.99
+      },
+      {
+        "id": "PROD002",
+        "name": "Test Product 2",
+        "price": 149.99
+      }
+    ],
+    "searchTerms": {
+      "valid": "test query",
+      "noResults": "xyznonexistent",
+      "common": "product"
+    }
+  },
+
+  "commonSelectors": {
+    "navigation": {
+      "homeLink": "a[href='/']",
+      "loginLink": "a[href='/login']",
+      "registerLink": "a[href='/signup']"
+    },
+    "forms": {
+      "submitButton": "button[type='submit']",
+      "cancelButton": "button[type='button']",
+      "requiredField": "input[required]"
+    },
+    "notifications": {
+      "success": ".toast-success, .alert-success",
+      "error": ".toast-error, .alert-error",
+      "warning": ".toast-warning, .alert-warning",
+      "info": ".toast-info, .alert-info"
+    }
+  },
+
+  "delays": {
+    "afterNavigation": 500,
+    "afterSubmit": 1000,
+    "betweenActions": 100
+  },
+
+  "authentication": {
+    "required": true,
+    "loginURL": "/login",
+    "logoutURL": "/logout",
+    "sessionStorage": {
+      "tokenKey": "authToken",
+      "userKey": "currentUser"
+    }
+  }
+}
