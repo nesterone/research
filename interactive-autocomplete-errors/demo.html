@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Spell Correction Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .demo-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #667eea; }
+        h2 { color: #333; }
+        .demo-text {
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            margin: 15px 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .error-example {
+            color: #f44336;
+            font-weight: bold;
+        }
+        .correct-example {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background: #5568d3;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f7ff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-section">
+        <h1>Interactive Spell Correction - Demo</h1>
+        <p>This tool helps you learn correct spelling by making you type the corrections yourself!</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>Example Text with Errors</h2>
+        <div class="demo-text">
+            <p><span class="error-example">Exmple</span> текста с несколькими <span class="error-example">ошибкми</span>.</p>
+            <p>Здесь <span class="error-example">несколко</span> слов написано <span class="error-example">неправильно</span>.</p>
+            <p>Let's fix them <span class="error-example">interctively</span>!</p>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>How to Use</h2>
+        <div class="step">
+            <strong>Step 1:</strong> Paste or type text with spelling errors
+        </div>
+        <div class="step">
+            <strong>Step 2:</strong> Press <code>Ctrl+Enter</code> or click "Check Text"
+        </div>
+        <div class="step">
+            <strong>Step 3:</strong> Errors will be highlighted. Missing letters shown in <span class="error-example">RED</span>
+        </div>
+        <div class="step">
+            <strong>Step 4:</strong> Type the missing letters (e.g., type "a" for "Ex<span class="error-example">a</span>mple")
+        </div>
+        <div class="step">
+            <strong>Step 5:</strong> Automatically moves to next error after correction
+        </div>
+        <div class="step">
+            <strong>Step 6:</strong> Celebrate when all errors are fixed! 🎉
+        </div>
+
+        <a href="index.html" class="btn">Open Interactive Corrector →</a>
+    </div>
+
+    <div class="demo-section">
+        <h2>Supported Errors (Sample)</h2>
+        <p><strong>Russian:</strong></p>
+        <ul>
+            <li><span class="error-example">ошибкми</span> → <span class="correct-example">ошибками</span></li>
+            <li><span class="error-example">несколко</span> → <span class="correct-example">несколько</span></li>
+            <li><span class="error-example">интеактивно</span> → <span class="correct-example">интерактивно</span></li>
+        </ul>
+        <p><strong>English:</strong></p>
+        <ul>
+            <li><span class="error-example">exmple</span> → <span class="correct-example">example</span></li>
+            <li><span class="error-example">erors</span> → <span class="correct-example">errors</span></li>
+            <li><span class="error-example">interctively</span> → <span class="correct-example">interactively</span></li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>Why This Approach?</h2>
+        <p>Traditional spell checkers just auto-correct or underline errors. This tool makes you actively participate in the correction process, which:</p>
+        <ul>
+            <li>✅ Helps you remember correct spellings better</li>
+            <li>✅ Builds muscle memory through typing</li>
+            <li>✅ Makes you conscious of common mistakes</li>
+            <li>✅ Provides immediate feedback</li>
+            <li>✅ Makes learning interactive and engaging</li>
+        </ul>
+    </div>
+</body>
+</html>

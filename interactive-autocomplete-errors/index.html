@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Spell Correction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Interactive Spell Correction</h1>
+            <p class="subtitle">Type corrections yourself to learn better</p>
+        </header>
+
+        <div class="controls">
+            <button id="checkBtn" class="btn-primary">Check Text (Ctrl+Enter)</button>
+            <button id="nextErrorBtn" class="btn-secondary" disabled>Next Error (Ctrl+N)</button>
+            <button id="resetBtn" class="btn-secondary">Reset</button>
+        </div>
+
+        <div class="stats">
+            <span id="errorCount">Errors: 0</span>
+            <span id="currentError">Current: -</span>
+        </div>
+
+        <div class="editor-wrapper">
+            <div id="editor" contenteditable="true" spellcheck="false" placeholder="Start typing...">
+Пример текста с ошибкми. Здесь несколко слов написано неправильно. Давайте исправим их интеактивно.
+
+This is an exmple text with some erors. Let's fix them interctively.
+            </div>
+        </div>
+
+        <div id="correctionHint" class="correction-hint" style="display: none;">
+            <div class="hint-content">
+                <span class="hint-label">Missing letters:</span>
+                <span id="hintText" class="hint-text"></span>
+                <div class="hint-instruction">Type the missing letters in red</div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ul>
+                <li><kbd>Ctrl+Enter</kbd> - Check text for errors</li>
+                <li><kbd>Ctrl+N</kbd> - Navigate to next error</li>
+                <li>Type the <span class="red-text">red highlighted</span> letters to fix the error</li>
+                <li>Cursor will automatically move to the next error</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="spellchecker.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
